@@ -8,6 +8,7 @@ body {
   padding: 50px 10%;
 }
 
+/* hide-me only activated when the button is clicked more than 3 times */
 .hide-me {
   visibility: hidden;
   opacity: 0;
