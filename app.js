@@ -1,5 +1,4 @@
-log = console.log;
-
+// initialise url page number
 var urlNum = 1;
 
 // target animal-info div for easy use
@@ -16,6 +15,8 @@ function onBtnClick() {
 	// change successfully retrieved JSON data to an object and log it to the console
 	myRequest.onload = function() {
 		var retrievedData = JSON.parse(myRequest.responseText);
+
+		// invoke renderHTML function and pass down data recived from AJAX request
 		renderHTML(retrievedData);
 	};
 
@@ -25,20 +26,32 @@ function onBtnClick() {
 	// increase urlNum by 1
 	urlNum++;
 
+	// set button when it is clicked more than 3 times
 	if (urlNum > 3) {
 		var btn = document.getElementById('btn');
 		btn.classList.add('hide-me');
 	}
 };
 
+// renderHTML function is used to loop through the 'retrievedData' passed down from myRequest.onload function
+// data is then populated to 'animal-info' div by using 'insertAdjacentHTML()' method
 function renderHTML(data) {
 	var htmlData = '';
 
 	for (var i = 0; i < data.length; i++) {
-		htmlData += "<p>" + data[i].name + " is a " + data[i].species + ".</p>";
+		htmlData += "<p>" + data[i].name + " is a " + data[i].species + " that likes ";
+
+		for (var ii = 0; ii < data[i].foods.likes.length; ii++) {
+
+			if(ii === 0) {
+				htmlData += data[i].foods.likes[ii];
+			} else {
+				htmlData += ' and ' + data[i].foods.likes[ii];
+			}
+		}
+
+		htmlData += '.</p>';
 	}
 
 	animalInfo.insertAdjacentHTML('beforeend', htmlData);
 }
-
-
